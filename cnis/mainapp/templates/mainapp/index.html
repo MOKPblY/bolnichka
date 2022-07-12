@@ -8,18 +8,18 @@
 <ul>
     {% csrf_token %}
     {% for p in pats %}
-        <li>
-            <a href="{% url 'history' p.id %}">
-                Пациент {{ p.fio }}
-            </a>
-            <br>
-            {% if user_is_doctor %}
-            <a href="{% url 'take' p.id %}">
-                Взять пацика
-            </a>
-            {% endif %}
-            <br><br>
-        </li>
+    <li>
+        <a href="{% url 'history' p.id %}">
+            Пациент {{ p.fio }}
+        </a>
+        <br>
+        {% if user_is_doctor %}
+        <a href="{% url 'take' p.id %}">
+            Взять пацика
+        </a>
+        {% endif %}
+        <br><br>
+    </li>
     {% endfor %}
 </ul>
 

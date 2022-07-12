@@ -4,16 +4,16 @@
 <h2>Мои пациенты</h2>
 <ul>
     {% for p in pats %}
-        <li>
-            <a href="{% url 'history' p.id %}">
-                Пациент {{ p.fio }}
-            </a>
-            <br>
-            <a href="{% url 'deny' p.id %}">
-                Сбросить в лист ожидания
-            </a>
-            <br><br>
-        </li>
+    <li>
+        <a href="{% url 'history' p.id %}">
+            Пациент {{ p.fio }}
+        </a>
+        <br>
+        <a href="{% url 'deny' p.id %}">
+            Сбросить в лист ожидания
+        </a>
+        <br><br>
+    </li>
     {% endfor %}
 </ul>
 {% endblock %}

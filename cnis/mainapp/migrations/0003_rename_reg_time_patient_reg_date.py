@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('mainapp', '0002_patient_birth_date_patient_diag_code_and_more'),
     ]

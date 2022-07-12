@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('mainapp', '0003_rename_reg_time_patient_reg_date'),
     ]

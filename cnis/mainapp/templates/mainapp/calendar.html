@@ -2,27 +2,29 @@
 {% block content %}
 <table>
 
-<tr><th colspan="7">My working weeks, March 2015</th></tr>
-<tr>
-    {% for day in days %}
+    <tr>
+        <th colspan="7">My working weeks, March 2015</th>
+    </tr>
+    <tr>
+        {% for day in days %}
         <td>{{day}}</td>
-    {% endfor %}
-</tr>
+        {% endfor %}
+    </tr>
     {% for week in weeks %}
-        <tr>
-            {% for date, pats in week.items %}
-                <td>
-                    {{date.day}}.{{date.month}}
-                    <ul>
-                        {% for pat in pats %}
-                        <li>{{pat.fio}}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            {% endfor %}
-        </tr>
+    <tr>
+        {% for date, pats in week.items %}
+        <td>
+            {{date.day}}.{{date.month}}
+            <ul>
+                {% for pat in pats %}
+                <li>{{pat.fio}}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        {% endfor %}
+    </tr>
     {% endfor %}
 
- </table>
+</table>
 
 {% endblock %}

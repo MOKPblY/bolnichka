@@ -30,3 +30,9 @@ td {
 padding: 10px;
 color: #8D8173;
 }
+
+.logon {
+    background: url("../img/22.jpg");
+    height: 500px;
+    outline: 4px solid black;
+}

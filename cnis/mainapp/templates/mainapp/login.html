@@ -1,11 +1,13 @@
 {% extends './base.html' %}
 {% block content %}
-<form method = "post">
-    {% csrf_token %}
-    <p>{{ form.non_field_errors }}</p>
-    {{ form.as_p }}
-    <div>{{ f.errors }}</div>
-    <p><input type = "submit" value="Войти">
-</form>
+<div class="logon">
+    <form method="post">
+        {% csrf_token %}
+        <p>{{ form.non_field_errors }}</p>
+        {{ form.as_p }}
+        <div>{{ f.errors }}</div>
+        <p><input type="submit" value="Войти">
+    </form>
+</div>
 
 {% endblock %}
