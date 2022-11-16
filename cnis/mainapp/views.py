@@ -2,6 +2,7 @@ from calendar import monthrange
 from datetime import date, timedelta
 from time import strftime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import PermissionsMixin, Group, User
 from django.http import HttpResponse, JsonResponse
 from django.template.context_processors import request
@@ -21,7 +22,7 @@ from .forms import *
 # Create your views here.
 
 
-class WaitlistView(ListView):
+class WaitlistView(ListView, LoginRequiredMixin):
     template_name = 'mainapp/waitlist.html'
     model = Patient
     context_object_name = 'pats'
@@ -36,7 +37,7 @@ class WaitlistView(ListView):
         return Patient.objects.filter(status = status) ##list??
 
 
-class ComissionView(ListView):
+class ComissionView(ListView, LoginRequiredMixin):
     template_name = 'mainapp/comission.html'
     model = Patient
     context_object_name = 'pats'
@@ -65,7 +66,7 @@ def deny_a_patient(request, pat_id):
     return redirect('mypats')
 
 
-class AddPatient(CreateView):
+class AddPatient(CreateView, LoginRequiredMixin):
     template_name = 'mainapp/addform.html'
     model = Patient
     context_object_name = 'pats'
@@ -80,7 +81,7 @@ class AddPatient(CreateView):
     #     return Patient.objects.get(doc_id=self.request.user.id)
 
 
-class UpdatePatient(UpdateView):
+class UpdatePatient(UpdateView, LoginRequiredMixin):
     template_name = 'mainapp/history.html'
     model = Patient
     form_class = PatientForm
@@ -91,7 +92,7 @@ class UpdatePatient(UpdateView):
     #     return context
 
 
-class MyPats(ListView):
+class MyPats(ListView, LoginRequiredMixin):
     template_name = 'mainapp/mypats.html'
     model = Patient
     context_object_name = 'pats'
@@ -135,7 +136,7 @@ def logout_user(request):
     return redirect('login')
 
 
-class CalendarView(ListView):
+class CalendarView(ListView, LoginRequiredMixin):
     model = MyUser
     template_name = 'mainapp/calendar.html'
     context_object_name = 'docs'
@@ -236,7 +237,7 @@ def ajaxDetails(request, pat_id):
     return(JsonResponse(pat_json))
 
 
-class DocUpdateView(UpdateView):
+class DocUpdateView(UpdateView, LoginRequiredMixin):
 
     template_name = 'mainapp/mycab.html'
     model = MyUser

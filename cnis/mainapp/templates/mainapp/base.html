@@ -16,7 +16,7 @@
 <div id="header">
         <div class="menu container">
             <ul>
-                {% if user.is_authenticated %}
+
                 <li>
                     <a href="{% url 'com' %}">Пациенты на комиссии</a>
                 </li>
@@ -46,7 +46,7 @@
                     <a href="{% url 'logout' %}">Выход</a>
                 </li>
 
-                {% endif %}
+
             </ul>
         </div>
     </div>
