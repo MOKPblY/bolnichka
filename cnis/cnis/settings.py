@@ -24,7 +24,12 @@ SECRET_KEY = 'django-insecure-0i_26sb(3ip$3h)po%hpv_2sjtq1%2dte9(t1tf0%bc3jy0v49
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '62.109.6.64',
+    '62.109.6.64:8000',
+    '127.0.0.1',
+    '127.0.0.1:8000'
+]
 
 # Application definition
 
@@ -36,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mainapp.apps.MainappConfig',
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -74,7 +81,7 @@ WSGI_APPLICATION = 'cnis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db' / 'db.sqlite3',
     }
 }
 
@@ -82,18 +89,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 # Internationalization
@@ -101,11 +108,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
 USE_TZ = True
+
+AUTH_USER_MODEL = 'mainapp.MyUser'
+
+# AUTHENTICATION_BACKENDS = (
+#         'django.contrib.auth.backends.RemoteUserBackend',
+# )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -123,3 +136,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # TEMPLATE_CONTEXT_PROCESSORS = [
 #     'django.core.context_processors.auth'
 # ]
+
+CELERY_ENABLE_UTC = False
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_BROKER_URL = "redis://redis:6379/0"
+
+CELERY_RESULT_BACKEND = 'django-db'

@@ -1,0 +1,20 @@
+{% extends './base.html' %}
+{% block content %}
+
+<h2>Лист ожидания</h2>
+
+<ul>
+    {% csrf_token %}
+    {% for p in pats %}
+    <li>
+        <a href="{% url 'history' p.id %}">
+            Пациент {{ p.fio }}
+        </a>
+        <br>
+
+        <br><br>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

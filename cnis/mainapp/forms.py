@@ -1,48 +1,45 @@
 from django import forms
+from django.contrib.admin import widgets
+from django.forms import ModelChoiceField
 
 from .models import *
 
 
-class AddPatient(forms.ModelForm):
+class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
-        fields = ['fio', 'city', 'parent_phone', 'birth_date']
+        fields = ['fio', 'birth_date', 'adress', 'parent_phone', 'parent_name', 'hosp_date', 'diag_desc', 'diag_code', 'oper_name', 'oper_date', 'comment', 'doc']
         widgets = {
-            'fio': forms.TextInput(attrs={'maxlength': 50, 'placeholder': 'Петров Петр Петрович'}),
-            'city': forms.TextInput(attrs={'maxlength': 50, 'placeholder': 'Москва'}),
-            'parent_phone': forms.TextInput(attrs={'maxlength': 50}),
-            'birth_date': forms.SelectDateWidget(),
+            'birth_date' : forms.DateInput(format = ('%Y-%m-%d'), attrs={'type':'date'}),
+            'oper_date' : forms.DateInput(format = ('%Y-%m-%d'), attrs={'type':'date'}),
+            'hosp_date' : forms.DateInput(format = ('%Y-%m-%d'), attrs={'type':'date'}),
+            'diag_desc' : forms.Textarea(attrs={'contenteditable': 'true', 'cols': 1, 'rows': 4, 'maxlength': 1000}),
+            'comment' : forms.Textarea(attrs={'contenteditable': 'true', 'cols': 1, 'rows': 4, 'maxlength': 1000})
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['placeholder'] = 'Не заполнено'
+            field.label_suffix = ''
 
-class DocEditPat(forms.ModelForm):
-    fio = forms.CharField(label='ФИО', disabled=True, required=False,
-                          widget=forms.TextInput(attrs={'maxlength': 50, 'placeholder': 'K01'}))
-    city = forms.CharField(disabled=True, required=False,
-                           widget=forms.TextInput(attrs={'maxlength': 50, 'placeholder': 'K01'}))
-    parent_phone = forms.CharField(disabled=True, required=False,
-                                   widget=forms.TextInput(attrs={'maxlength': 50, 'placeholder': 'K01'}))
-    birth_date = forms.DateField(disabled=True, required=False,
-                                 widget=forms.TextInput(attrs={'maxlength': 50, 'placeholder': 'K01'}))
-    hosp_date = forms.DateField(required=False,
-                                widget=forms.SelectDateWidget(attrs={'maxlength': 50, 'placeholder': 'K01'}))
-    oper_date = forms.DateField(required=False,
-                                widget=forms.SelectDateWidget(attrs={'maxlength': 50, 'placeholder': 'K01'}))
-    diag_code = forms.CharField(required=False, widget=forms.TextInput(attrs={'maxlength': 50, 'placeholder': 'K01'}))
-    diag_desc = forms.CharField(required=False, widget=forms.Textarea(attrs={'maxlength': 50, 'placeholder': 'K01'}))
+    # doc = ModelChoiceField(label='Врач', queryset=MyUser.objects.all(), required=True)
+
+
+class DocUpdateForm(forms.ModelForm):
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.help_text = None
+            field.widget.attrs['placeholder'] = 'Не заполнено'
+            field.label_suffix = ''
 
     class Meta:
-        model = Patient
-        fields = ['fio', 'city', 'parent_phone', 'birth_date', 'hosp_date', 'oper_date', 'diag_code', 'diag_desc']
+        model = MyUser
+        fields = ['username', 'first_name', 'last_name', 'email', 'color']
         widgets = {
-            'fio': forms.TextInput(attrs={'disabled': True, 'maxlength': 50, 'placeholder': 'Петров Петр Петрович'}),
-            'city': forms.TextInput(
-                attrs={'required': 'False', 'disabled': True, 'maxlength': 50, 'placeholder': 'Москва'}),
-            'parent_phone': forms.TextInput(attrs={'required': 'False', 'disabled': True, 'maxlength': 50}),
-            'birth_date': forms.DateInput(attrs={'required': 'False', 'disabled': True}),
-            # 'reg_date' : forms.DateInput(attrs = {'required': 'false','disabled':True}),
-            'hosp_date': forms.SelectDateWidget(attrs={}),
-            'oper_date': forms.SelectDateWidget(attrs={}),
-            'diag_code': forms.TextInput(attrs={'required': False, }),
-            'diag_desc': forms.Textarea(attrs={}),
+            'color': forms.TextInput(attrs={'type': 'color'}),
         }

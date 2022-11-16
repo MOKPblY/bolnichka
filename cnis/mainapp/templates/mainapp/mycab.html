@@ -1,0 +1,13 @@
+{% extends './base.html' %}
+{% block content %}
+
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        <p>{{ form.non_field_errors }}</p>
+        {{ form.as_p }}
+        <div>{{ f.errors }}</div>
+        <p><input type="submit" value="Внести изменения">
+    </form>
+</div>
+{% endblock %}

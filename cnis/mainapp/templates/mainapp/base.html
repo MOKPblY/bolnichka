@@ -12,40 +12,51 @@
     <link type="text/css" rel="stylesheet" href="{% static 'mainapp/css/style.css' %}">
 </head>
 <body>
-<div id="container">
-    <div id="header">
-        <ul>
-            {% if user.is_authenticated %}
-            <li>
-                <a href="{% url 'logout' %}">Выход</a>
-            </li>
 
-            <li>
-                <a href="{% url 'wlist' %}">Лист ожидания</a>
-            </li>
-            {% if user_is_doctor %}
-            <li>
-                <a href="{% url 'mypats' %}">Мои пациенты</a>
-            </li>
-            <li>
-                <a href="{% url 'cal' %}">Календарь госпитализации</a>
-            </li>
-            <li>
-                <a href="{% url 'cal' %}">Календарь операций</a>
-            </li>
-            {% endif %}
-            {% endif %}
+<div id="header">
+        <div class="menu container">
+            <ul>
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'com' %}">Пациенты на комиссии</a>
+                </li>
 
+                <li>
+                    <a href="{% url 'wlist' %}">Лист ожидания</a>
+                </li>
 
-        </ul>
+                {% if user_is_doctor %}
+                <li>
+                    <a href="{% url 'mypats' %}">Мои пациенты</a>
+                </li>
+                {% endif %}
+
+                <li>
+                    <a href="{% url 'cal' %}">Календарь госпитализации</a>
+                </li>
+                <li>
+                    <a href="{% url 'cal' %}">Календарь операций</a>
+                </li>
+                {% if user_is_doctor %}
+                <li>
+                    <a href="{% url 'lk' user.id %}">Мой кабинет</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'logout' %}">Выход</a>
+                </li>
+
+                {% endif %}
+            </ul>
+        </div>
     </div>
-    <div id="content">
+<div id="content">
 
         {% block content %}
         Дефолтное содержимое
         {% endblock %}
     </div>
-</div>
-
+{% block js %}
+    {% endblock js %}
 </body>
 </html>

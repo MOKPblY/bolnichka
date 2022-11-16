@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis
+    restart: always
+
+  web:
+    build: .
+    restart: always
+    command: >
+      bash -c
+        "python ./manage.py makemigrations
+        python3 /user/src/app/manage.py migrate
+        python3 /user/src/app/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./db:/user/src/app/db
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+      - worker
+      - beat
+
+  worker:
+    restart: always
+    build: .
+    volumes:
+      - ./db:/user/src/app/db
+    command: ['celery', '-A', 'cnis', 'worker', '-l', 'INFO', '-P', 'eventlet']
+
+  beat:
+    build: .
+    restart: always
+    volumes:
+      - ./db:/user/src/app/db
+    command: ['celery', '-A', 'cnis', 'beat', '-l', 'info', '--scheduler', 'django_celery_beat.schedulers:DatabaseScheduler']
+
+volumes:
+  db:

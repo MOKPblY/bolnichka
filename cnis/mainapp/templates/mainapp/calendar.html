@@ -1,30 +1,90 @@
 {% extends './base.html' %}
+{% load static %}
 {% block content %}
-<table>
+<div class="widecontainer">
+    <div class="leftbar">
+        <div class="filter">
+            <div class="blockhead">
+                <p>Фильтр</p>
+            </div>
+            <div id="docslist">
+                <ul>
+                    <li class="checkdoc">
+                        <div class="color"> </div>
+                        <label for="all">
+                                Все
+                        </label>
+                        <input type="checkbox" id="all" checked>
+                    </li>
+                    {% for doc in docs %}
+                        <li class="checkdoc">
+                            <div class="color" style="background-color:{{doc.color}};"></div>
+                            <label for="{{doc.id}}">
 
-    <tr>
-        <th colspan="7">My working weeks, March 2015</th>
-    </tr>
-    <tr>
-        {% for day in days %}
-        <td>{{day}}</td>
-        {% endfor %}
-    </tr>
-    {% for week in weeks %}
-    <tr>
-        {% for date, pats in week.items %}
-        <td>
-            {{date.day}}.{{date.month}}
-            <ul>
-                {% for pat in pats %}
-                <li>{{pat.fio}}</li>
-                {% endfor %}
-            </ul>
-        </td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
+                                    {{doc.username}}
+                            </label>
+                            <input type="checkbox" id="{{doc.id}}" checked>
+                        </li>
+                    {% endfor %}
 
-</table>
+                </ul>
+            </div>
+        </div>
+        <div class="details" id="details">
+            <div class="blockhead">
+                <h3></h3>
+            </div>
+            <div class="info">
+                <p id="ds"></p>
+                <p id="oper"></p>
+                <p id="op_date"></p>
+            </div>
+        </div>
+    </div>
+    <table>
+
+        <tr>
+            <th colspan="5">{{cur_month}}</th>
+        </tr>
+        {% for week in weeks %}
+        <tr>
+            {% for date in week.keys %}
+                <td>
+                    {{date.day}}.{{date.month}}
+                </td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th colspan="5">Отделение ЧЛХ(детское)</th>
+        </tr>
+        <tr>
+            {% for pats in week.values %}
+            <td>
+                <ul>
+                    {% for pat in pats %}
+                    <li  class="{{pat.doc_id}}">
+                        <div class="color" style = "background-color:{{pat.doc.color}}"></div>
+                        <a href="{% url 'ajax_details' pat.id %}">{{pat.fio}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
 
 {% endblock %}
+
+
+{% block js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="{% static 'mainapp/js/details.js' %}"></script>
+
+    <script src="{% static 'mainapp/js/displaypats.js' %}"></script>
+{% endblock js %}

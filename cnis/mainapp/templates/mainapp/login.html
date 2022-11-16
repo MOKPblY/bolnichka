@@ -1,13 +1,37 @@
-{% extends './base.html' %}
-{% block content %}
-<div class="logon">
-    <form method="post">
-        {% csrf_token %}
-        <p>{{ form.non_field_errors }}</p>
-        {{ form.as_p }}
-        <div>{{ f.errors }}</div>
-        <p><input type="submit" value="Войти">
-    </form>
-</div>
+{% load static %}
 
-{% endblock %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link type="text/css" rel="stylesheet" href="{% static 'mainapp/css/login.css' %}">
+
+    <title>Document</title>
+</head>
+<body>
+    <div class = "dimmer">
+        <div class="container">
+            <h1>
+                Клиника детской челюстно- <br>
+                лицевой хирургии и стоматологии <br>
+                ЦНИИСиЧЛХ
+            </h1>
+            <form class="login" method="post">
+                {% csrf_token %}
+                <p>{{ form.non_field_errors }}</p>
+                {{ form.as_p }}
+                <div>{{ f.errors }}</div>
+                <p><input type="submit" value = "Вход"></p>
+            </form>
+            <p>
+                Портал оптимизации работы <br>
+                медицинского персонала
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

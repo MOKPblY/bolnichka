@@ -1,0 +1,25 @@
+{% extends './base.html' %}
+{% block content %}
+
+<h2>Пациенты на комиссии</h2>
+{% if user_is_reg %}
+    <h3><a href="{% url 'addpat' %}">Добавить нового пациента</a></h3>
+{% endif %}
+<ul>
+    {% csrf_token %}
+    {% for p in pats %}
+    <li>
+        <a href="{% url 'history' p.id %}">
+            Пациент {{ p.fio }}
+        </a>
+        <br>
+        {% if user_is_reg %}
+        <a href="{% url 'towlist' p.id %}">
+            Перекинуть в лист ожидания
+        </a>
+        {% endif %}
+        <br><br>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
